@@ -66,7 +66,7 @@ def print_component_labels(component_id,X_approx_ks,lset):
     print '#out_labels#'
     for i in range(len(X_approx_ks.U[2])):
         if X_approx_ks.U[2][i][component_id]>0:
-            print lset[i],X_approx_ks.U[1][i][component_id]
+            print lset[i],X_approx_ks.U[2][i][component_id]
 def print_component_pairs(component_id,component_pair_list,lset,label_num):
     print '######component id:'+str(component_id)
     for i in range(label_num):
