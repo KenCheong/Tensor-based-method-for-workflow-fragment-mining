@@ -1,0 +1,64 @@
+##notes:
+L is number of labels.
+N is number of workflows.
+R is number of components
+
+---------
+WC2.pickle
+---------
+    Json representation of corpus 2,
+    It is a three value list where the first value is the adjacency  matrix(I*I,where I is number of nodes in whole corpus) of the whole corpus,the second value is a list(I) contains node labels for each nodes,
+    the third value is a list(I) contains workflows label for each nodes(tell which workflow contains that node).
+----------
+tensor_test.py
+----------
+    It is the test file  which calls functions in ncp.py and tensor_utility.py
+
+    6-10 lines load the corpus tensor(workflow x in_labels x out_labels).
+
+    13-15 lines compute the tensor factorization and get component_pair_list which is a list of matrices(in_label x out_label) for each component.
+
+    19-20 lines print the pair(or edges) of first 5 components(from component_pair_list).
+
+----------
+ncp.py
+----------
+    This file contains the  tensor factorization logic.
+
+    For user, we just need to know  nonnegative_tensor_factorization(tensor, r) where tensor is the corpus tensor and r is number of components,
+    this factorization will output X_approx_ks, which is a three value list, correspond to three matrices- workflows x components, in_labels x components and out_labels x components,
+
+    original source: https://github.com/panisson/ntf-school/blob/master/ncp.py
+----------
+tensor_utility.py
+----------
+    This file contains utility functions such as some IO functions, format transformation,printing. 
+
+
+    /////////functions
+    get_component_pair_list(A,B,r,threshold)
+        This function compute outer product of vectors from A and B, and get list of matrices, for each entry of each matrix, if the value is smaller than 1-threshold, that entry will be set to 0.
+
+        input- A is the in_label x components matrix, B is the out_label x components matrix, r is number of components, threshold is set to eliminate low value entries(0 to 1, if it is 1, no entry will be eliminated).
+
+        output- a R matrices(each matrix is  in_label x out_label for that component) list
+
+    print_component_pairs(component_id,component_pair_list,lset,label_num):
+        print non zero value edges of component component_id in component_pair_list
+
+        input- component_id specifies which component print,component_pair_list is is a list of matrices(in_label x out_label) for each component,lset is list of labels,label_num is number of labels.
+
+    print_component_labels(component_id,X_approx_ks,lset):
+        print non zero value in_labels and out_labels  of component component_id in X_approx_ks(the output of nonnegative_tensor_factorization in ncp,py)
+
+
+
+    /////////
+
+
+
+
+##Reference
+https://github.com/panisson/ntf-school/blob/master/ncp.py --source of ncp.py
+
+http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0086028  --Application of non-negative tensor factorization on human contacts.
